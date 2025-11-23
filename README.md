@@ -14,6 +14,13 @@ O acesso via SSH pode ser feito seguindo:
 ssh <login>@andromeda.lasdpc.icmc.usp.br -p porta
 ```
 
+# Portas de Acesso SSH
+
+|   MÁQUINA   |   PORTA SSH   |
+|-------------|---------------|
+|     VM1     |     23191     |
+|     VM2     |     23192     |
+
 Com esta VM, o Docker pode ser utilizado, junto da criação do projeto da disciplina. 
 
 O login do seu grupo tem poder de root, de modo que vocês podem instalar e configurar o que precisam. O Docker já está configurado para uso e não precisa ser instalado. Em caso de qualquer dúvida ou dificuldade de acesso, consultar o professor da disciplina: jcezar@icmc.usp.br
@@ -23,15 +30,6 @@ O login do seu grupo tem poder de root, de modo que vocês podem instalar e conf
 | Local (VM)    | Remota (WWW) - Porta Web   |
 |---------------|----------------------------|
 | 5191          | 5191                       |
-
-# Portas de Acesso SSH
-
-|   VM1   |   23191   |
-|---------|-----------|
-|   VM2   |   23192   |
-
-
-Consulte a porta-web correspondente ao seu grupo na planilha com informações do grupo lá no moodle.
 
 # Acesso WEB	
 http://andromeda.lasdpc.icmc.usp.br:porta-web	
