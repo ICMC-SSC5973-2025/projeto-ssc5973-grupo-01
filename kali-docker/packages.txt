@@ -1,0 +1,13 @@
+hydra
+nmap
+hping3
+python3-pip
+git
+vim
+tcpdump
+john
+medusa
+ncrack
+scapy
+python3-pip
+metasploit-framework
