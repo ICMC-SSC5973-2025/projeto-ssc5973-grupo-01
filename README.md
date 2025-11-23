@@ -24,6 +24,13 @@ O login do seu grupo tem poder de root, de modo que vocês podem instalar e conf
 |---------------|----------------------------|
 | 5191          | 5191                       |
 
+# Portas de Acesso SSH
+
+|   VM1   |   23191   |
+|---------|-----------|
+|   VM2   |   23192   |
+
+
 Consulte a porta-web correspondente ao seu grupo na planilha com informações do grupo lá no moodle.
 
 # Acesso WEB	
