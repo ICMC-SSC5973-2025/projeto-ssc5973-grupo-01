@@ -141,8 +141,8 @@ Essa arquitetura separa geração de eventos, processamento pelo SIEM e observab
 
 Podem ser variados, para fim de estudo de diferentes casos, o hardware disponível ao container que recebe os ataques, além da frequência e intensidade desses ataques
 
-Por meio da flag -t no script bfexp.sh podemos controlar o número de threads executadas em paralelo durante o ataque `hydra -L ${USER_LIST} -P ${PASS_LIST} ssh://$TARGET_IP:$SSH_PORT -t 32 -f -V `
+Por meio da flag `-t` no script bfexp.sh podemos controlar o número de threads executadas em paralelo durante o ataque `hydra -L ${USER_LIST} -P ${PASS_LIST} ssh://$TARGET_IP:$SSH_PORT -t 32 -f -V `
 
-Já as limitações de hardware são configuradas pelos parâmetros `mem_limit` e `cpus` no docker-compose.yml do single-node, que devem estar inclusas nas cláusulas de cada service declarado pelo docker-compose, nominalmente o wazuh indexer, wazuh manager e wazih dashboard
+Já as limitações de hardware são configuradas pelos parâmetros `mem_limit` e `cpus` do `single-node/docker-compose.yml`, que devem estar inclusas nas cláusulas de cada service declarado, nominalmente o `wazuh indexer`, `wazuh manager` e `wazuh dashboard`
 
 
