@@ -140,7 +140,7 @@ Para fazer o download dessa imagem basta executar o comando
 # Descrição Prometheus e Grafana 
 O Prometheus é uma plataforma de monitoramento orientada a métricas, responsável por coletar e armazenar dados de desempenho dos serviços e containers, como CPU, memória, rede e ingestão de logs. O Grafana complementa o Prometheus oferecendo visualização em tempo real por meio de dashboards customizáveis, permitindo analisar o comportamento do SIEM durante os ataques e correlacionar métricas com eventos detectados pelo Wazuh.
 
-# Passos de instalação Grafab
+# Passos de instalação Grafana
 
 # Ambiente de Experimentação
 O ambiente experimental consiste em duas máquinas virtuais (VMs), configuradas para emular um endpoint monitorado e um servidor SIEM centralizado
