@@ -101,7 +101,7 @@ Após inicializar o single-node stack, o Wazuh dashboard pode ser acessado usand
 # Agente Wazuh
 Executar o Wazuh Agent em um container Docker fornece uma alternativa leve para integração e coleta de logs via syslog, sem a necessidade de instalar o agente diretamente no host.
 
-**Nota:** é importante que a versão do agente Wazuh seja igual ou maior que a do Wazuh Manager.
+**Observação: é importante que a versão do agente Wazuh seja igual ou maior que a do Wazuh Manager.**
 
 
 Clone o repositório oficial do Wazuh Docker
@@ -133,7 +133,7 @@ Para fazer o download dessa imagem basta executar o comando
 
 `docker pull docker.io/kalilinux/kali-rolling`
 
-**Observação** as imagens do kali em geral não incluem o metapackage “default”. Por isso será necessário executar:
+**Observação: as imagens do kali em geral não incluem o metapackage “default”. Por isso será necessário executar:**
 
 `apt update && apt -y install kali-linux-headless`
 
