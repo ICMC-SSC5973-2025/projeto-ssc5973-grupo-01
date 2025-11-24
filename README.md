@@ -103,35 +103,42 @@ Executar o Wazuh Agent em um container Docker fornece uma alternativa leve para 
 -- Note: é importante que a versão do agente wazuh seja igual ou maior que a do wazuh manager --
 
 Clone o repositório oficial do Wazuh Docker
+
 `git clone https://github.com/wazuh/wazuh-docker.git -b v4.14.1`
 
 Acesse o diretório do Wazuh Agent
+
 `cd wazuh-docker/wazuh-agent`
 
 Edite o arquivo docker-compose.yml substituindo o <WAZUH_MANAGER_IP> pelo endereço IP do seu Wazuh Manager, conforme o trecho abaixo:
 
-`# Wazuh App Copyright (C) 2017, Wazuh Inc. (License GPLv2)
-services:
-  wazuh.agent:
-    image: wazuh/wazuh-agent:4.14.1
-    restart: always
-    environment:
-      - WAZUH_MANAGER_SERVER=<WAZUH_MANAGER_IP>
-    volumes:
-      - ./config/wazuh-agent-conf:/wazuh-config-mount/etc/ossec.conf`
+`environment: - WAZUH_MANAGER_SERVER=<WAZUH_MANAGER_IP>`
 
 Inicie o container do Wazuh Agent
+
 `docker compose up -d`
 
 # Descrição Kali Linux / Hydra
 O Kali Linux é uma distribuição focada em testes de intrusão e segurança ofensiva, contendo diversas ferramentas de ataque e auditoria. Neste projeto, ele é utilizado como ambiente para executar ataques de força bruta SSH. Já o Hydra é a ferramenta empregada para automatizar essas tentativas de autenticação, permitindo ajustar parâmetros como número de threads, taxa de tentativas e credenciais testadas, gerando tráfego malicioso controlado para avaliação do SIEM.
 
-# Passos de instalação
+# Passos de instalação Kali 
+
+A Kali fornece imagens oficiais do Kali Docker que são atualizadas semanalmente no Docker Hub, dessa forma, é possível escolher a que melhor se adequa ao projeto 
+
+A mais indicada para propósito geral é a `kalilinux/kali-rolling` por acompanhar continuamente o repositório de pacotes kali-rolling, assim como as imagens padrão.
+
+Para fazer o download dessa imagem basta executar o comando 
+
+`docker pull docker.io/kalilinux/kali-rolling`
+
+-- Observação as imagens do kali em geral não incluem o metapackage “default”. Por isso será necessário executar:
+
+`apt update && apt -y install kali-linux-headless`
 
 # Descrição Prometheus e Grafana 
 O Prometheus é uma plataforma de monitoramento orientada a métricas, responsável por coletar e armazenar dados de desempenho dos serviços e containers, como CPU, memória, rede e ingestão de logs. O Grafana complementa o Prometheus oferecendo visualização em tempo real por meio de dashboards customizáveis, permitindo analisar o comportamento do SIEM durante os ataques e correlacionar métricas com eventos detectados pelo Wazuh.
 
-# Passos de instalação
+# Passos de instalação Grafab
 
 # Ambiente de Experimentação
 O ambiente experimental consiste em duas máquinas virtuais (VMs), configuradas para emular um endpoint monitorado e um servidor SIEM centralizado
