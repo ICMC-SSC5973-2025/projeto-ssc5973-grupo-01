@@ -140,7 +140,28 @@ Para fazer o download dessa imagem basta executar o comando
 # Descrição Prometheus e Grafana 
 O Prometheus é uma plataforma de monitoramento orientada a métricas, responsável por coletar e armazenar dados de desempenho dos serviços e containers, como CPU, memória, rede e ingestão de logs. O Grafana complementa o Prometheus oferecendo visualização em tempo real por meio de dashboards customizáveis, permitindo analisar o comportamento do SIEM durante os ataques e correlacionar métricas com eventos detectados pelo Wazuh.
 
-# Passos de instalação Grafana
+# Passos de instalação Prometheus e Grafana
+Objetivo: monitorar a VM (CPU, memória, disco, rede) e os containers (CPU, memória, rede, I/O) usando Prometheus + Grafana com cAdvisor e Node Exporter.
+
+Pré‑requisitos:
+- Docker e Docker Compose já instalados na VM.
+- Acesso SSH à VM1.
+- Portas web do grupo: 5291 (Prometheus), 5391 (Grafana). Opcional: 5392 (cAdvisor), 5393 (Node Exporter para debug).
+
+Estrutura na VM:
+```
+/home/gcloudpos01/monitoring
+├── docker-compose.yml
+└── prometheus/
+    └── prometheus.yml
+```
+
+- Criar arquivos de configuração [docker-compose.yml](https://github.com/ICMC-SSC5973-2025/projeto-ssc5973-grupo-01/blob/main/monitoring/docker-compose.yml) e [prometheus.yml](https://github.com/ICMC-SSC5973-2025/projeto-ssc5973-grupo-01/blob/main/monitoring/prometheus/prometheus.yml)
+- Subir a stack:
+```
+cd ~/monitoring
+docker compose up -d
+```
 
 # Ambiente de Experimentação
 O ambiente experimental consiste em duas máquinas virtuais (VMs), configuradas para emular um endpoint monitorado e um servidor SIEM centralizado
@@ -150,8 +171,6 @@ O ambiente experimental consiste em duas máquinas virtuais (VMs), configuradas 
 * VM2 (Wazuh Agent e Kali Linux / Hydra) - Monitora o serviço SSH local e envia logs para o servidor. No mesmo host são gerados ataques de força bruta SSH com diferentes intensidades, controlando número de threads, atacantes e taxa de tentativas.
 
 Essa arquitetura separa geração de eventos, processamento pelo SIEM e observabilidade, permitindo execuções repetíveis para avaliar latência de detecção, consumo de recursos e comportamento de ingestão sob ataques SSH controlados.
-
-
 
 # Passos para realização de Ataques
 
