@@ -97,3 +97,24 @@ Para iniciar o Wazuh Docker em background o seguinte comando deve ser executado:
 Após inicializar o single-node stack, o Wazuh dashboard pode ser acessado usando o endereço IP do host Docker ou localhost tal como no comando a seguir
 
 `https://<DOCKER_HOST_IP>`
+
+
+# Descrição Kali Linux / Hydra
+O Kali Linux é uma distribuição focada em testes de intrusão e segurança ofensiva, contendo diversas ferramentas de ataque e auditoria. Neste projeto, ele é utilizado como ambiente para executar ataques de força bruta SSH. Já o Hydra é a ferramenta empregada para automatizar essas tentativas de autenticação, permitindo ajustar parâmetros como número de threads, taxa de tentativas e credenciais testadas, gerando tráfego malicioso controlado para avaliação do SIEM.
+
+# Passos de instalação
+
+# Descrição Prometheus e Grafana 
+O Prometheus é uma plataforma de monitoramento orientada a métricas, responsável por coletar e armazenar dados de desempenho dos serviços e containers, como CPU, memória, rede e ingestão de logs. O Grafana complementa o Prometheus oferecendo visualização em tempo real por meio de dashboards customizáveis, permitindo analisar o comportamento do SIEM durante os ataques e correlacionar métricas com eventos detectados pelo Wazuh.
+
+# Passos de instalação
+
+# Ambiente de Experimentação
+O ambiente experimental consiste em duas máquinas virtuais (VMs), configuradas para emular um endpoint monitorado e um servidor SIEM centralizado
+
+* VM1 (Wazuh Server, Prometheus e Grafana) - Responsável por receber e correlacionar eventos, aplicar regras de detecção, gerar alertas e monitorar métricas de CPU, memória, rede e ingestão de logs em tempo real.
+
+* VM2 (Wazuh Agent e Kali Linux / Hydra) - Monitora o serviço SSH local e envia logs para o servidor. No mesmo host são gerados ataques de força bruta SSH com diferentes intensidades, controlando número de threads, atacantes e taxa de tentativas.
+
+Essa arquitetura separa geração de eventos, processamento pelo SIEM e observabilidade, permitindo execuções repetíveis para avaliar latência de detecção, consumo de recursos e comportamento de ingestão sob ataques SSH controlados.
+
