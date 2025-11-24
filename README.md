@@ -123,6 +123,9 @@ Essa arquitetura separa geração de eventos, processamento pelo SIEM e observab
 # Passos para realização de Ataques
 
 ## VM1
+Antes de iniciar os ataques, é necessário executar o script `leia_metricas.sh` na VM1. Esse script coleta continuamente os dados de utilização do sistema durante a execução dos ataques e os registra no arquivo `metrics_vm1.csv`.
+
+Após a conclusão dos ataques, utilize o script Python `gera_graficos.py` para processar o arquivo `metrics_vm1.csv` e gerar automaticamente os gráficos de análise.
 
 ## VM2
 
