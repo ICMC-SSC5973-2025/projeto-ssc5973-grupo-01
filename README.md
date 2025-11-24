@@ -118,3 +118,31 @@ O ambiente experimental consiste em duas máquinas virtuais (VMs), configuradas 
 
 Essa arquitetura separa geração de eventos, processamento pelo SIEM e observabilidade, permitindo execuções repetíveis para avaliar latência de detecção, consumo de recursos e comportamento de ingestão sob ataques SSH controlados.
 
+
+
+# Passos para realização de Ataques
+
+## VM1
+
+## VM2
+
+* Verificar contêineres em execução: `docker ps` - devem estar ativos os containers referentes ao agente wazuh ssh e ao kali-linux
+
+* Para ataques externos, usar o kali linux instalado em sua VM pessoal, para ataques internos acessar shell bash do kali-docker: `docker exec -it kali-docker bash`
+
+* Em um terminal sepaarado acesse o shell bash do ssh-wazuh-agent: `docker exec -it ssh_wazuh_agent bash`
+
+* No container agente wazuh ssh podemos verificar em tempo real, por meio de impressão na tela, a leitura do log auth.log por meio do comando: `tail -f /var/log/auth.log`
+
+* Por meio do Kali (interno ou externo) executar o script de ataque `./bfexp.sh`
+
+
+# Configurações experimentais
+
+Podem ser variados, para fim de estudo de diferentes casos, o hardware disponível ao container que recebe os ataques, além da frequência e intensidade desses ataques
+
+Por meio da flag -t no script bfexp.sh podemos controlar o número de threads executadas em paralelo durante o ataque `hydra -L ${USER_LIST} -P ${PASS_LIST} ssh://$TARGET_IP:$SSH_PORT -t 32 -f -V `
+
+Já as limitações de hardware são configuradas pelos parâmetros `mem_limit` e `cpus` no docker-compose.yml do single-node, que devem estar inclusas nas cláusulas de cada service declarado pelo docker-compose, nominalmente o wazuh indexer, wazuh manager e wazih dashboard
+
+
