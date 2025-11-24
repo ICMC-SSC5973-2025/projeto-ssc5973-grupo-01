@@ -98,6 +98,30 @@ Após inicializar o single-node stack, o Wazuh dashboard pode ser acessado usand
 
 `https://<DOCKER_HOST_IP>`
 
+# Agente Wazuh
+Executar o Wazuh Agent em um container Docker fornece uma alternativa leve para integração e coleta de logs via syslog, sem a necessidade de instalar o agente diretamente no host.
+-- Note: é importante que a versão do agente wazuh seja igual ou maior que a do wazuh manager --
+
+Clone o repositório oficial do Wazuh Docker
+`git clone https://github.com/wazuh/wazuh-docker.git -b v4.14.1`
+
+Acesse o diretório do Wazuh Agent
+`cd wazuh-docker/wazuh-agent`
+
+Edite o arquivo docker-compose.yml substituindo o <WAZUH_MANAGER_IP> pelo endereço IP do seu Wazuh Manager, conforme o trecho abaixo:
+
+`# Wazuh App Copyright (C) 2017, Wazuh Inc. (License GPLv2)
+services:
+  wazuh.agent:
+    image: wazuh/wazuh-agent:4.14.1
+    restart: always
+    environment:
+      - WAZUH_MANAGER_SERVER=<WAZUH_MANAGER_IP>
+    volumes:
+      - ./config/wazuh-agent-conf:/wazuh-config-mount/etc/ossec.conf`
+
+Inicie o container do Wazuh Agent
+`docker compose up -d`
 
 # Descrição Kali Linux / Hydra
 O Kali Linux é uma distribuição focada em testes de intrusão e segurança ofensiva, contendo diversas ferramentas de ataque e auditoria. Neste projeto, ele é utilizado como ambiente para executar ataques de força bruta SSH. Já o Hydra é a ferramenta empregada para automatizar essas tentativas de autenticação, permitindo ajustar parâmetros como número de threads, taxa de tentativas e credenciais testadas, gerando tráfego malicioso controlado para avaliação do SIEM.
