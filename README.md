@@ -6,7 +6,7 @@ Abaixo, seguem informações de login e senha para que o grupo possa acessar a V
 
 **login: gcloudpos01**
 
-**senha: LuGfjMO6**
+**senha: XXXX**
  
 O acesso via SSH pode ser feito seguindo:
 
