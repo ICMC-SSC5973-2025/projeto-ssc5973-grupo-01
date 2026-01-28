@@ -41,79 +41,72 @@ Wazuh is an open-source security platform that performs real-time monitoring, lo
 It functions as a SIEM + HIDS, offering intrusion detection, integrity analysis, incident response, and compliance.
 Wazuh consists of a cross-platform Wazuh agent and three core components: the Wazuh server, the Wazuh indexer, and the Wazuh dashboard.
 
-# Opções de implantação
-Para implantação pode-se utilizar o Wazuh Single-Node Stack, em que toda sua stack, ou seja, o manager, indexer e dashboard rodam em único servidor. Já o Wazuh Multi-Node Stack distribui esses modulos em múltiplos servidores. Para esse trabalho foi escolhida a implementação com Single-Node Stack.
+# Deployment Options
+For deployment, you can use Wazuh Single-Node Stack, where your entire stack, i.e., the manager, indexer, and dashboard, run on a single server. Wazuh Multi-Node Stack, on the other hand, distributes these modules across multiple servers. For this project, the Single-Node Stack implementation was chosen.
 
-# Requisitos de Hardware
+# Hardware Requirements
+|------------------------------------------------------------|
+| **Requirement**   | **Specification**                      |
+|-------------------|----------------------------------------|
+| **Architecture**  | AMD64                                  |
+| **CPU**           | Minimum of 4 cores                     |
+| **RAM Memory**    | At least 8 GB for the Docker host      |
+| **Disk Space**    | At least 50 GB for images and volumes  |
+|------------------------------------------------------------|
 
-| Requisito      | Especificação                                    |
-|----------------|--------------------------------------------------|
-| **Arquitetura**          | AMD64                                   |
-| **CPU**                  | Mínimo de 4 cores                       |
-| **Memória RAM**          | Pelo menos 8 GB para o host do Docker   |
-| **Espaço em Disco**      | Pelo menos 50 GB para imagens e volumes |
+# Software Requirements
 
-
-# Requisitos de Software
-
-- Sistema Operacional: Linux ou Windows
+- Operating System: Linux or Windows
 - Docker Engine / Docker Desktop
 - Docker Composer
 - Git
 
-# Configurações iniciais
+# Initial Settings
 
-Para que a aplicação funcione adequadamente em sistemas operacionais Linux/Unix deve ser rodado o seguinte comando 
-
+For the application to function properly on Linux/Unix operating systems, the following command must be run:
 `sysctl -w vm.max_map_count=262144`
 
-O comando irá definir o max_map_count do seu host Docker para 262144. Isso é necessário tendo em vista que o indexador do Wazuh cria um grande número de áreas de memória mapeadas virtualmente (VMAs), portanto, o kernel precisa estar configurado acima do limite padrão do Linux, que é 65530.
+The command will set the `max_map_count` of your Docker host to 262144. This is necessary because the Wazuh indexer creates a large number of virtually mapped memory areas (VMAs), therefore the kernel needs to be configured above the default Linux limit of 65530.
 
-Caso queira usar o Docker como um usuário non-root, o seguinte comando deve ser executado também:
-
+If you want to use Docker as a non-root user, the following command should also be executed:
 `usermod -aG docker <USER>`
 
-Sendo que <USER> deve ser substituido pelo seu nome de usuário desejado
+Where <USER> should be replaced with your desired username.
 
 # Single-node stack deployment
-Crie um clone do repositório Wazuh Docker no seu sistema
-
+Create a clone of the Wazuh Docker repository on your system:
 `git clone https://github.com/wazuh/wazuh-docker.git -b v4.13.0`
 
-Navegue ate o diretório single-node para executar os comandos subsequentes
-
+Navigate to the single-node directory to execute the subsequent commands:
 `cd wazuh-docker/single-node/`
 
-É necessário fornecer certificados para cada nó a fim de garantir a comunicação segura entre eles na stack do Wazuh. Para isso, deve-se usar a imagem Docker wazuh-certs-generator para gerar certificados autoassinados para cada nó da sua stack.
+It is necessary to provide certificates for each node in order to ensure secure communication between them in the Wazuh stack. To do this, you should use the wazuh-certs-generator Docker image to generate self-signed certificates for each node in your stack.
 
 `docker compose -f generate-indexer-certs.yml run --rm generator`
 
-Os certificados gerados serão arquivados no diretório wazuh-docker/single-node/config/wazuh_indexer_ssl_certs
+The generated certificates will be archived in the wazuh-docker/single-node/config/wazuh_indexer_ssl_certs directory.
 
-Para iniciar o Wazuh Docker em background o seguinte comando deve ser executado:
+To start Wazuh Docker in the background, the following command must be executed:
 
 `docker compose up -d`
 
-Após inicializar o single-node stack, o Wazuh dashboard pode ser acessado usando o endereço IP do host Docker ou localhost tal como no comando a seguir
+After initializing the single-node stack, the Wazuh dashboard can be accessed using the Docker host's IP address or localhost, as in the following command.
 
 `https://<DOCKER_HOST_IP>`
 
-# Agente Wazuh
-Executar o Wazuh Agent em um container Docker fornece uma alternativa leve para integração e coleta de logs via syslog, sem a necessidade de instalar o agente diretamente no host.
+# Wazuh Agent
+Running the Wazuh Agent in a Docker container provides a lightweight alternative for integration and log collection via syslog, without the need to install the agent directly on the host.
 
-**Observação: é importante que a versão do agente Wazuh seja igual ou maior que a do Wazuh Manager.**
+**Note: It is important that the Wazuh agent version is the same as or higher than the Wazuh Manager version.**
 
-
-Clone o repositório oficial do Wazuh Docker
+Clone the official Wazuh Docker repository.
 
 `git clone https://github.com/wazuh/wazuh-docker.git -b v4.14.1`
 
-Acesse o diretório do Wazuh Agent
-
+Access the Wazuh Agent directory.
 `cd wazuh-docker/wazuh-agent`
 
-Edite o arquivo docker-compose.yml substituindo o <WAZUH_MANAGER_IP> pelo endereço IP do seu Wazuh Manager, conforme o trecho abaixo:
-
+Edit the docker-compose.yml file, replacing <WAZUH_MANAGER_IP> with the IP address of your Wazuh Manager, as shown in the excerpt below:
 `environment: - WAZUH_MANAGER_SERVER=<WAZUH_MANAGER_IP>`
 
 Inicie o container do Wazuh Agent
