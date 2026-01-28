@@ -45,14 +45,14 @@ Wazuh consists of a cross-platform Wazuh agent and three core components: the Wa
 For deployment, you can use Wazuh Single-Node Stack, where your entire stack, i.e., the manager, indexer, and dashboard, run on a single server. Wazuh Multi-Node Stack, on the other hand, distributes these modules across multiple servers. For this project, the Single-Node Stack implementation was chosen.
 
 # Hardware Requirements
-|------------------------------------------------------------|
+
 | **Requirement**   | **Specification**                      |
 |-------------------|----------------------------------------|
 | **Architecture**  | AMD64                                  |
 | **CPU**           | Minimum of 4 cores                     |
 | **RAM Memory**    | At least 8 GB for the Docker host      |
 | **Disk Space**    | At least 50 GB for images and volumes  |
-|------------------------------------------------------------|
+
 
 # Software Requirements
 
@@ -64,20 +64,24 @@ For deployment, you can use Wazuh Single-Node Stack, where your entire stack, i.
 # Initial Settings
 
 For the application to function properly on Linux/Unix operating systems, the following command must be run:
+
 `sysctl -w vm.max_map_count=262144`
 
 The command will set the `max_map_count` of your Docker host to 262144. This is necessary because the Wazuh indexer creates a large number of virtually mapped memory areas (VMAs), therefore the kernel needs to be configured above the default Linux limit of 65530.
 
 If you want to use Docker as a non-root user, the following command should also be executed:
+
 `usermod -aG docker <USER>`
 
 Where <USER> should be replaced with your desired username.
 
 # Single-node stack deployment
 Create a clone of the Wazuh Docker repository on your system:
+
 `git clone https://github.com/wazuh/wazuh-docker.git -b v4.13.0`
 
 Navigate to the single-node directory to execute the subsequent commands:
+
 `cd wazuh-docker/single-node/`
 
 It is necessary to provide certificates for each node in order to ensure secure communication between them in the Wazuh stack. To do this, you should use the wazuh-certs-generator Docker image to generate self-signed certificates for each node in your stack.
@@ -109,24 +113,24 @@ Access the Wazuh Agent directory.
 Edit the docker-compose.yml file, replacing <WAZUH_MANAGER_IP> with the IP address of your Wazuh Manager, as shown in the excerpt below:
 `environment: - WAZUH_MANAGER_SERVER=<WAZUH_MANAGER_IP>`
 
-Inicie o container do Wazuh Agent
+Start the Wazuh Agent container
 
 `docker compose up -d`
 
-# Descrição Kali Linux / Hydra
-O Kali Linux é uma distribuição focada em testes de intrusão e segurança ofensiva, contendo diversas ferramentas de ataque e auditoria. Neste projeto, ele é utilizado como ambiente para executar ataques de força bruta SSH. Já o Hydra é a ferramenta empregada para automatizar essas tentativas de autenticação, permitindo ajustar parâmetros como número de threads, taxa de tentativas e credenciais testadas, gerando tráfego malicioso controlado para avaliação do SIEM.
+# Description Kali Linux / Hydra
+Kali Linux is a distribution focused on penetration testing and offensive security, containing various attack and auditing tools. In this project, it is used as an environment to execute SSH brute-force attacks. Hydra is the tool used to automate these authentication attempts, allowing the adjustment of parameters such as the number of threads, attempt rate, and tested credentials, generating controlled malicious traffic for SIEM evaluation.
 
-# Passos de instalação Kali 
+# Kali Installation Steps
 
-A Kali fornece imagens oficiais do Kali Docker que são atualizadas semanalmente no Docker Hub, dessa forma, é possível escolher a que melhor se adequa ao projeto 
+Kali provides official Kali Docker images that are updated weekly on Docker Hub, allowing you to choose the one that best suits your project.
 
-A mais indicada para propósito geral é a `kalilinux/kali-rolling` por acompanhar continuamente o repositório de pacotes kali-rolling, assim como as imagens padrão.
+The most suitable for general purposes is `kalilinux/kali-rolling`, as it continuously includes the kali-rolling package repository, just like the standard images.
 
-Para fazer o download dessa imagem basta executar o comando 
+To download this image, simply run the command:
 
 `docker pull docker.io/kalilinux/kali-rolling`
 
-**Observação: as imagens do kali em geral não incluem o metapackage “default”. Por isso será necessário executar:**
+**Note: Kali images generally do not include the "default" metapackage. Therefore, you will need to run:**
 
 `apt update && apt -y install kali-linux-headless`
 
