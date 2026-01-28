@@ -6,40 +6,40 @@ Below, you will find the login and password information so that the group can ac
 
 **login: gcloudpos01**
 
-**senha: XXXX**
+**password: XXXX**
  
-O acesso via SSH pode ser feito seguindo:
+Access via SSH can be done by following these steps:
 
 ```bash
 ssh <login>@andromeda.lasdpc.icmc.usp.br -p porta
 ```
 
-# Portas de Acesso SSH
+# SSH Access Ports
 
-|   MÁQUINA   |   PORTA SSH   |
+|   MACHINE   |   SSH PORT   |
 |-------------|---------------|
 |     VM1     |     23191     |
 |     VM2     |     23192     |
 
-Com esta VM, o Docker pode ser utilizado, junto da criação do projeto da disciplina. 
+With this VM, Docker can be used along with the creation of the course project.
 
-O login do seu grupo tem poder de root, de modo que vocês podem instalar e configurar o que precisam. O Docker já está configurado para uso e não precisa ser instalado. Em caso de qualquer dúvida ou dificuldade de acesso, consultar o professor da disciplina: jcezar@icmc.usp.br
+Your group login has root privileges, so you can install and configure what you need. Docker is already configured for use and does not need to be installed. If you have any questions or difficulties accessing it, please consult the course instructor: **jcezar@icmc.usp.br**
 
-# Mapeamento de Portas (Exemplo)	
+# Port Mapping (Example)
 
-| Local (VM)    | Remota (WWW) - Porta Web   |
+| Local (VM)    | Remote (WWW) - Web Port   |
 |---------------|----------------------------|
 | 5191          | 5191                       |
 
-# Acesso WEB	
+# Web Acess	
 http://andromeda.lasdpc.icmc.usp.br:porta-web	
 
 
-# Descrição Wazuh
+# Description of Wazuh
 
-O Wazuh é uma plataforma open-source de segurança que faz monitoramento, coleta e análise de logs em tempo real para detectar ameaças e anomalias.
-Ele funciona como um SIEM + HIDS, oferecendo detecção de intrusão, análise de integridade, resposta a incidentes e conformidade.
-O Wazuh consiste em um agente Wazuh multiplataforma e três componentes centrais: o Wazuh server, o Wazuh indexer e o Wazuh dashboard.
+Wazuh is an open-source security platform that performs real-time monitoring, log collection, and analysis to detect threats and anomalies.
+It functions as a SIEM + HIDS, offering intrusion detection, integrity analysis, incident response, and compliance.
+Wazuh consists of a cross-platform Wazuh agent and three core components: the Wazuh server, the Wazuh indexer, and the Wazuh dashboard.
 
 # Opções de implantação
 Para implantação pode-se utilizar o Wazuh Single-Node Stack, em que toda sua stack, ou seja, o manager, indexer e dashboard rodam em único servidor. Já o Wazuh Multi-Node Stack distribui esses modulos em múltiplos servidores. Para esse trabalho foi escolhida a implementação com Single-Node Stack.
