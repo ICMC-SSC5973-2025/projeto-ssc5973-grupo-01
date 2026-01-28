@@ -134,18 +134,18 @@ To download this image, simply run the command:
 
 `apt update && apt -y install kali-linux-headless`
 
-# Descrição Prometheus e Grafana 
-O Prometheus é uma plataforma de monitoramento orientada a métricas, responsável por coletar e armazenar dados de desempenho dos serviços e containers, como CPU, memória, rede e ingestão de logs. O Grafana complementa o Prometheus oferecendo visualização em tempo real por meio de dashboards customizáveis, permitindo analisar o comportamento do SIEM durante os ataques e correlacionar métricas com eventos detectados pelo Wazuh.
+# Description of Prometheus and Grafana
+Prometheus is a metrics-driven monitoring platform responsible for collecting and storing performance data from services and containers, such as CPU, memory, network, and log ingestion. Grafana complements Prometheus by offering real-time visualization through customizable dashboards, allowing analysis of SIEM behavior during attacks and correlation of metrics with events detected by Wazuh.
 
-# Passos de instalação Prometheus e Grafana
-Objetivo: monitorar a VM (CPU, memória, disco, rede) e os containers (CPU, memória, rede, I/O) usando Prometheus + Grafana com cAdvisor e Node Exporter.
+# Prometheus and Grafana Installation Steps
+Objective: To monitor the VM (CPU, memory, disk, network) and containers (CPU, memory, network, I/O) using Prometheus + Grafana with cAdvisor and Node Exporter.
 
-Pré‑requisitos:
-- Docker e Docker Compose já instalados na VM.
-- Acesso SSH à VM1.
-- Portas web do grupo: 5291 (Prometheus), 5391 (Grafana). Opcional: 5392 (cAdvisor), 5393 (Node Exporter para debug).
+# Prerequisites:
+- Docker and Docker Compose already installed on the VM.
+- SSH access to VM1.
+- Group web ports: 5291 (Prometheus), 5391 (Grafana). Optional: 5392 (cAdvisor), 5393 (Node Exporter for debugging).
 
-Estrutura na VM:
+VM Structure:
 ```
 /home/gcloudpos01/monitoring
 ├── docker-compose.yml
@@ -153,48 +153,49 @@ Estrutura na VM:
     └── prometheus.yml
 ```
 
-- Criar arquivos de configuração [docker-compose.yml](https://github.com/ICMC-SSC5973-2025/projeto-ssc5973-grupo-01/blob/main/monitoring/docker-compose.yml) e [prometheus.yml](https://github.com/ICMC-SSC5973-2025/projeto-ssc5973-grupo-01/blob/main/monitoring/prometheus/prometheus.yml)
-- Subir a stack:
+- Create configuration files [docker-compose.yml](https://github.com/ICMC-SSC5973-2025/projeto-ssc5973-grupo-01/blob/main/monitoring/docker-compose.yml) e [prometheus.yml](https://github.com/ICMC-SSC5973-2025/projeto-ssc5973-grupo-01/blob/main/monitoring/prometheus/prometheus.yml)
+- Raise the stack:
 ```
 cd ~/monitoring
 docker compose up -d
 ```
 
-# Ambiente de Experimentação
-O ambiente experimental consiste em duas máquinas virtuais (VMs), configuradas para emular um endpoint monitorado e um servidor SIEM centralizado
+# Experimental Environment
+The experimental environment consists of two virtual machines (VMs), configured to emulate a monitored endpoint and a centralized SIEM server.
 
-* VM1 (Wazuh Server, Prometheus e Grafana) - Responsável por receber e correlacionar eventos, aplicar regras de detecção, gerar alertas e monitorar métricas de CPU, memória, rede e ingestão de logs em tempo real.
+* VM1 (Wazuh Server, Prometheus, and Grafana) - Responsible for receiving and correlating events, applying detection rules, generating alerts, and monitoring CPU, memory, network, and log ingestion metrics in real time.
 
-* VM2 (Wazuh Agent e Kali Linux / Hydra) - Monitora o serviço SSH local e envia logs para o servidor. No mesmo host são gerados ataques de força bruta SSH com diferentes intensidades, controlando número de threads, atacantes e taxa de tentativas.
+* VM2 (Wazuh Agent and Kali Linux / Hydra) - Monitors the local SSH service and sends logs to the server. On the same host, SSH brute-force attacks of varying intensities are generated, controlling the number of threads, attackers, and attempt rate.
 
-Essa arquitetura separa geração de eventos, processamento pelo SIEM e observabilidade, permitindo execuções repetíveis para avaliar latência de detecção, consumo de recursos e comportamento de ingestão sob ataques SSH controlados.
+This architecture separates event generation, SIEM processing, and observability, allowing for repeatable executions to evaluate detection latency, resource consumption, and ingestion behavior under controlled SSH attacks.
 
-# Passos para realização de Ataques
+# Steps for Performing Attacks
 
 ## VM1
-Antes de iniciar os ataques, é necessário executar o script `leia_metricas.sh` na VM1. Esse script coleta continuamente os dados de utilização do sistema durante a execução dos ataques e os registra no arquivo `metrics_vm1.csv`.
+Before starting the attacks, it is necessary to run the `read_metrics.sh` script on VM1. This script continuously collects system usage data during the execution of the attacks and logs it in the file
+`metrics_vm1.csv`.
 
-Após a conclusão dos ataques, utilize o script Python `gera_graficos.py` para processar o arquivo `metrics_vm1.csv` e gerar automaticamente os gráficos de análise.
+After the attacks are complete, use the Python script `gera_graficos.py` to process the `metrics_vm1.csv` file and automatically generate the analysis graphs.
 
 ## VM2
 
-* Verificar contêineres em execução: `docker ps` - devem estar ativos os containers referentes ao agente wazuh ssh e ao kali-linux
+* Check running containers: `docker ps` - the containers related to the wazuh ssh agent and kali-linux must be active.
 
-* Para ataques externos, usar o kali linux instalado em sua VM pessoal, para ataques internos acessar shell bash do kali-docker: `docker exec -it kali-docker bash`
+* For external attacks, use Kali Linux installed on your personal VM; for internal attacks, access the kali-docker bash shell: `docker exec -it kali-docker bash`
 
-* Em um terminal sepaarado acesse o shell bash do ssh-wazuh-agent: `docker exec -it ssh_wazuh_agent bash`
+* In a separate terminal, access the bash shell of the ssh-wazuh-agent: `docker exec -it ssh_wazuh_agent bash`
 
-* No container agente wazuh ssh podemos verificar em tempo real, por meio de impressão na tela, a leitura do log auth.log por meio do comando: `tail -f /var/log/auth.log`
+* In the wazuh ssh agent container, we can verify in real time, by printing to the screen, the reading of the auth.log using the command: `tail -f /var/log/auth.log`
 
-* Por meio do Kali (interno ou externo) executar o script de ataque `./bfexp.sh`
+* Through Kali (internal or external), execute the attack script `./bfexp.sh`
 
 
-# Configurações experimentais
+# Experimental configurations
 
-Podem ser variados, para fim de estudo de diferentes casos, o hardware disponível ao container que recebe os ataques, além da frequência e intensidade desses ataques
+The hardware available to the container receiving the attacks, as well as the frequency and intensity of these attacks, can be varied for the purpose of studying different cases.
 
-Por meio da flag `-t` no script bfexp.sh podemos controlar o número de threads executadas em paralelo durante o ataque `hydra -L ${USER_LIST} -P ${PASS_LIST} ssh://$TARGET_IP:$SSH_PORT -t 32 -f -V `
+Using the `-t` flag in the bfexp.sh script, we can control the number of threads running in parallel during the attack: `hydra -L ${USER_LIST} -P ${PASS_LIST} ssh://$TARGET_IP:$SSH_PORT -t 32 -f -V`
 
-Já as limitações de hardware são configuradas pelos parâmetros `mem_limit` e `cpus` do `single-node/docker-compose.yml`, que devem estar inclusas nas cláusulas de cada service declarado, nominalmente o `wazuh indexer`, `wazuh manager` e `wazuh dashboard`
+Hardware limitations are configured by the `mem_limit` and `cpus` parameters in `single-node/docker-compose.yml`, which must be included in the clauses of each declared service, namely `wazuh indexer`, `wazuh manager`, and `wazuh dashboard`.
 
 
